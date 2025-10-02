@@ -1,0 +1,69 @@
+import { useState, useContext } from "react";
+ import { TodoContext } from "../Context/TodoContext";
+import Header from "../components/Header";
+import TodoList from "../components/TodoList";
+
+const Home = () => {
+  const { addTodo } = useContext(TodoContext);
+  const [input, setInput] = useState("");
+  
+  const handleAdd = () => {
+    if (!input.trim()) return;
+    addTodo(input);
+    setInput("");
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-400/20 to-purple-700/30 flex flex-col items-center p-6">
+      <div className="w-full max-w-2xl">
+        <Header />
+        <div className="bg-white/90 backdrop-blur rounded-xl shadow-md ring-1 ring-black/5 p-4 sm:p-6 mb-6">
+          <div className="flex gap-2">
+            <input
+              dir="rtl"
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="أضف مهمة جديدة..."
+              className="w-full px-4 py-2 rounded-lg bg-white text-neutral-800 placeholder-neutral-400 outline-none ring-1 ring-black/10 focus:ring-purple-400"
+            />
+            <button
+              onClick={handleAdd}
+              className="inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 disabled:opacity-50 disabled:cursor-not-allowed bg-white text-purple-600 hover:bg-neutral-100 px-4 sm:px-5"
+            >
+              إضافة
+            </button>
+          </div>
+        </div>
+        <div className="bg-white/90 backdrop-blur rounded-xl shadow-md ring-1 ring-black/5 p-2 sm:p-4">
+          <TodoList />
+        </div>
+      </div>
+
+      <footer className="w-full max-w-2xl mt-10">
+        <div className="relative">
+          <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-purple-400 via-pink-400 to-emerald-400 rounded-full opacity-70" />
+          <div className="text-center text-xs sm:text-sm text-neutral-600/80 bg-white/70 backdrop-blur rounded-xl py-4 ring-1 ring-black/5 shadow-sm">
+            <div className="flex items-center justify-center gap-2 mb-1">
+              <span className="align-middle">© {new Date().getFullYear()}</span>
+              <span className="text-gradient-animated font-semibold">Aymen.ceo</span>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <a href="https://t.me/STP_001" className="text-neutral-500 hover:text-sky-600 transition-colors" aria-label="Telegram">
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9.036 15.75l-.363 5.107c.518 0 .742-.222 1.011-.486l2.427-2.325 5.027 3.68c.922.509 1.579.242 1.832-.854l3.32-15.52h.001c.294-1.37-.495-1.907-1.397-1.57L1.72 9.51c-1.34.52-1.32 1.268-.228 1.606l5.044 1.575 11.7-7.384c.552-.375 1.056-.167.642.208z"/>
+                </svg>
+              </a>
+              <a href="https://www.instagram.com/code.edition1?igsh=YmxheXpzdjdsNzQ1" className="text-neutral-500 hover:text-pink-600 transition-colors" aria-label="Instagram">
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A5.5 5.5 0 1 0 17.5 13 5.51 5.51 0 0 0 12 7.5zm0 2A3.5 3.5 0 1 1 8.5 13 3.51 3.51 0 0 1 12 9.5zM18 6.5a1 1 0 1 0 1 1 1 1 0 0 0-1-1z"/></svg>
+              </a>
+            </div>
+            <div className="mt-1 text-[11px] text-neutral-500">جميع الحقوق محفوظة</div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Home;
