@@ -4,14 +4,23 @@ import Header from "../components/Header";
 import TodoList from "../components/TodoList";
 
 const Home = () => {
-  const { addTodo } = useContext(TodoContext);
+  const { addTodo,todos } = useContext(TodoContext);
   const [input, setInput] = useState("");
+
   
   const handleAdd = () => {
-    if (!input.trim()) return;
-    addTodo(input);
+    const normalize = str => str.trim().toLowerCase().replace(/\s+/g, ' ');
+    const value = normalize(input);
+    if (!value) return alert('Task is empty');
+  
+    const exists = todos.some(todo => normalize(todo.text) === value);
+  
+    if (exists) return alert('There is the same task in the list');
+  
+    addTodo(input.trim());
     setInput("");
   };
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400/20 to-purple-700/30 flex flex-col items-center p-6">

@@ -1,5 +1,5 @@
 // src/components/TodoList.jsx
-import { useContext } from "react";
+import { useContext, useMemo  } from "react";
 import { TodoContext } from "../Context/TodoContext";
 import TodoItem from "./TodoItem";
 import CompletedTodo from "./CompletedTodo";
@@ -8,7 +8,10 @@ const TodoList = () => {
   const { todos } = useContext(TodoContext);
   
   // Filter active (non-completed) todos
-  const activeTodos = todos.filter(todo => !todo.completed);
+  const activeTodos = useMemo(() => {
+    return todos.filter(todo => !todo.completed);
+  },[todos])
+  
 
   if (todos.length === 0)
     return (

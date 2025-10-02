@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useState, useMemo } from "react"
 import { TodoContext } from "../Context/TodoContext"
 
 export default function CompletedTodo(){
@@ -6,8 +6,12 @@ export default function CompletedTodo(){
    const [showCompleted, setShowCompleted] = useState(false)
    
    // Calculate completed todos count
-   const completedCount = todos.filter(todo => todo.completed).length
-   const completedTodos = todos.filter(todo => todo.completed)
+   const completedCount = useMemo(() => {
+      return todos.filter(todo => todo.completed).length
+   },[todos])
+   const completedTodos = useMemo(() => {
+      return todos.filter(todo => todo.completed)
+   },[todos])
 
    const toggleShowCompleted = () => {
       setShowCompleted(!showCompleted)
@@ -15,9 +19,9 @@ export default function CompletedTodo(){
 
    if(completedCount === 0){
       return (
-         <div className="py-8 text-center">
+      <div className="py-8 text-center">
            <p className="text-neutral-500 text-sm">لا توجد مهام مكتملة</p>
-         </div>
+      </div>
       )
    }
 
@@ -52,8 +56,8 @@ export default function CompletedTodo(){
                   >
                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
-               </div>
-            </button>
+            </div>
+        </button>
 
             {/* Completed Todos List */}
             {showCompleted && (
