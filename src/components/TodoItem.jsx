@@ -1,11 +1,14 @@
-import {useContext, useState} from 'react';
+import { useContext, useState } from 'react';
 import { TodoContext } from '../Context/TodoContext';
+import AppDialog  from './AppDialog';
 
-const TodoItem = ({todo}) => {
-    const {toggleComplete,deleteTodo,updateTodo} = useContext(TodoContext);
+const TodoItem = ({todo , onDeleteClick, onUpdateSuccess}) => {
+    const {toggleComplete,updateTodo} = useContext(TodoContext);
     const [isEditing, setIsEditing] = useState(false);
     const [editText, setEditText] = useState(todo.text);
     const [originalText, setOriginalText] = useState(todo.text);
+
+    
 
     const handleStartEdit = () => {
         setOriginalText(todo.text); // Store the current text when starting to edit
@@ -15,7 +18,9 @@ const TodoItem = ({todo}) => {
 
     const handleUpdate = () => {
         if (editText.trim() && editText !== todo.text) {
-            updateTodo(todo.id, editText.trim());
+          updateTodo(todo.id, editText.trim());
+
+          onUpdateSuccess(todo.id, todo.text)
         }
         setIsEditing(false);
     };
@@ -29,6 +34,7 @@ const TodoItem = ({todo}) => {
    
 
     return (
+      <>
         <div
       className={`flex justify-between items-center p-3 sm:p-4 rounded-lg transition-colors ${
         todo.completed ? "bg-neutral-50 text-neutral-400" : "hover:bg-neutral-50"
@@ -82,7 +88,7 @@ const TodoItem = ({todo}) => {
               ✓
             </button>
             <button
-              onClick={() => deleteTodo(todo.id)}
+              onClick={() => onDeleteClick(todo.id,todo.text)}
               className="inline-flex items-center justify-center gap-2 h-9 px-3 rounded-lg font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 bg-rose-500 text-white hover:bg-rose-600"
               aria-label="delete"
             >
@@ -92,7 +98,10 @@ const TodoItem = ({todo}) => {
         </>
       )}
     </div>
-    )
+
+    
+    </>
+  )
 }
 
 export default TodoItem;

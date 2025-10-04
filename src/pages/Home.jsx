@@ -1,13 +1,41 @@
-import { useState, useContext } from "react";
- import { TodoContext } from "../Context/TodoContext";
+import { useState, useContext,  } from "react";
+import { TodoContext } from "../Context/TodoContext";
 import Header from "../components/Header";
 import TodoList from "../components/TodoList";
+import AppDialog from "../components/AppDialog";
 
 const Home = () => {
-  const { addTodo,todos } = useContext(TodoContext);
+  const { addTodo, deleteTodo, todos  } = useContext(TodoContext);
   const [input, setInput] = useState("");
-
+  const [dialogState, setDialogState] = useState({
+    isOpen: false,
+    type: null,
+    todo: {id : null,text:''}
+  })
   
+  const closeDialog = () => setDialogState({isOpen: false, type: null, todo: {id:null , text:''}})
+
+  const openDeleteConfirmDialog = (id,text) => {
+    setDialogState({ 
+      isOpen: true, 
+      type: 'DELETE', 
+      todo: { id, text } 
+    });
+  };
+
+  const openUpdate = (id ,text) => {
+    setDialogState({isOpen: true, 
+    type: 'UPDATE_SUCCESS', 
+    todo : {id,text}})
+  }
+
+  const handleConfirmDelete = () => {
+    if(dialogState.type === 'DELETE' && dialogState.todo?.id){
+      deleteTodo(dialogState.todo.id)
+      closeDialog();
+    }
+  }
+
   const handleAdd = () => {
     const normalize = str => str.trim().toLowerCase().replace(/\s+/g, ' ');
     const value = normalize(input);
@@ -21,11 +49,86 @@ const Home = () => {
     setInput("");
   };
   
+  const renederDialogContent = () => {
+    if(!dialogState.isOpen || !dialogState.type) return null
+
+    const todoText = dialogState.todo?.text || ''
+
+    switch(dialogState.type){
+      case 'DELETE':
+  return (
+    <div className="text-center p-2">
+      {/* أيقونة تحذير - دائرة حمراء ناعمة */}
+      <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-50 ring-2 ring-red-200">
+        <svg className="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.3 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+
+      <h3 className="text-xl font-extrabold text-white mt-4">تأكيد الحذف</h3>
+      <p className="text-base text-white mt-2">
+      {todoText}  هل انت متاكد من الحذف نهائيا  
+      </p>
+      
+      {/* الأزرار: تصميم عصري */}
+      <div className="mt-6 flex justify-center gap-3">
+        {/* زر الإلغاء (خلفية شفافة / إطار خفيف) */}
+        <button 
+          onClick={closeDialog} 
+          className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-gray-300 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition shadow-sm"
+        >
+          إلغاء
+        </button>
+        {/* زر التأكيد (أحمر ساطع / ظل قوي) */}
+        <button 
+          onClick={handleConfirmDelete} 
+          className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-transparent bg-red-600 text-white font-semibold hover:bg-red-700 transition "
+        >
+          نعم، احذفها
+        </button>
+      </div>
+    </div>
+  );
+  case 'UPDATE_SUCCESS':
+    return (
+      <div className="text-center p-2">
+        {/* أيقونة النجاح - دائرة خضراء ناعمة */}
+        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-50 ring-2 ring-green-200">
+          <svg className="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        
+        <h3 className="text-xl font-extrabold text-white mt-4">تم التعديل بنجاح!</h3>
+        <p className="text-base text-white mt-2">
+         {todoText}  تم تحديث العملية بنجاح  
+        </p>
+        
+        {/* زر الإغلاق: باللون البنفسجي ليتناسب مع ثيم التطبيق */}
+        <div className="mt-6 flex justify-center">
+          <button 
+            onClick={closeDialog} 
+            // استخدام اللون الأرجواني (Purple) الخاص بـ Home.jsx
+            className="w-full sm:w-auto px-6 py-2.5 rounded-xl border border-transparent bg-purple-600 text-white font-semibold hover:bg-purple-700 transition "
+          >
+            إغلاق
+          </button>
+        </div>
+      </div>
+    );
+
+      default:
+        return null;
+    }
+  }
 
   return (
+    <>
     <div className="min-h-screen bg-gradient-to-br from-purple-400/20 to-purple-700/30 flex flex-col items-center p-6">
       <div className="w-full max-w-2xl">
         <Header />
+
+
         <div className="bg-white/90 backdrop-blur rounded-xl shadow-md ring-1 ring-black/5 p-4 sm:p-6 mb-6">
           <div className="flex gap-2">
             <input
@@ -45,9 +148,23 @@ const Home = () => {
           </div>
         </div>
         <div className="bg-white/90 backdrop-blur rounded-xl shadow-md ring-1 ring-black/5 p-2 sm:p-4">
-          <TodoList />
+        <TodoList 
+           openDeleteConfirmDialog={openDeleteConfirmDialog} 
+           openUpdateSuccessDialog={openUpdate}
+          />
         </div>
       </div>
+
+      
+    
+    {/* استخدام AppDialog مرة واحدة في Home */}
+    <AppDialog 
+      isOpen={dialogState.isOpen} 
+      handleClose={closeDialog}
+    >
+      {renederDialogContent()}
+    </AppDialog>
+    
 
       <footer className="w-full max-w-2xl mt-10">
         <div className="relative">
@@ -72,6 +189,7 @@ const Home = () => {
         </div>
       </footer>
     </div>
+  </>
   );
 };
 
