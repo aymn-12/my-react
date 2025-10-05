@@ -69,7 +69,7 @@ const TodoItem = ({todo , onDeleteClick, onUpdateSuccess}) => {
     </div>
   ) : (
     <>
-      <div className="flex flex-row-reverse gap-1.5">
+      <div className="flex  gap-1.5">
         <button
           onClick={handleStartEdit}
           className="inline-flex items-center justify-center h-9 px-3 rounded-lg font-medium transition-colors bg-blue-500 text-white hover:bg-blue-600"
