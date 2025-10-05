@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { TodoContext } from '../Context/TodoContext';
-import AppDialog  from './AppDialog';
+
 
 const TodoItem = ({todo , onDeleteClick, onUpdateSuccess}) => {
     const {toggleComplete,updateTodo} = useContext(TodoContext);
@@ -17,10 +17,12 @@ const TodoItem = ({todo , onDeleteClick, onUpdateSuccess}) => {
     };
 
     const handleUpdate = () => {
-        if (editText.trim() && editText !== todo.text) {
+        const Texteditior = editText.trim();
+
+        if (Texteditior.length > 0  && Texteditior !== todo.text) {
           updateTodo(todo.id, editText.trim());
 
-          onUpdateSuccess(todo.id, todo.text)
+          onUpdateSuccess(todo.id, Texteditior)
         }
         setIsEditing(false);
     };
@@ -36,68 +38,77 @@ const TodoItem = ({todo , onDeleteClick, onUpdateSuccess}) => {
     return (
       <>
         <div
-      className={`flex justify-between items-center p-3 sm:p-4 rounded-lg transition-colors ${
-        todo.completed ? "bg-neutral-50 text-neutral-400" : "hover:bg-neutral-50"
-      }`}
-    >
-      {isEditing ? (
-        <div className="flex-1 flex gap-2 items-center">
-          <input
-            type="text"
-            value={editText}
-            onChange={(e) => setEditText(e.target.value)}
-            className="flex-1 px-3 py-1 text-sm border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-            autoFocus
-          />
-          <button
-            onClick={handleUpdate}
-            className="inline-flex items-center justify-center w-8 h-8 rounded-lg font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 bg-emerald-500 text-white hover:bg-emerald-600 text-xs"
-            aria-label="save"
-          >
-            ✓
-          </button>
-          <button
-            onClick={handleCancel}
-            className="inline-flex items-center justify-center w-8 h-8 rounded-lg font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 bg-gray-500 text-white hover:bg-gray-600 text-xs"
-            aria-label="cancel"
-          >
-            ✕
-          </button>
-        </div>
-      ) : (
-        <>
-          <span className="text-sm sm:text-base flex-1">{todo.text}</span> {/** Text **/}
-
-
-          <div className="flex gap-1.5">
-            <button
-              onClick={handleStartEdit}
-              className="inline-flex items-center justify-center gap-2 h-9 px-3 rounded-lg font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 bg-blue-500 text-white hover:bg-blue-600"
-              aria-label="edit"
-              disabled={todo.completed}
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-              </svg>
-            </button>
-            <button
-              onClick={() => toggleComplete(todo.id)}
-              className="inline-flex items-center justify-center gap-2 h-9 px-3 rounded-lg font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 bg-emerald-500 text-white hover:bg-emerald-600"
-              aria-label="complete"
-            >
-              ✓
-            </button>
-            <button
-              onClick={() => onDeleteClick(todo.id,todo.text)}
-              className="inline-flex items-center justify-center gap-2 h-9 px-3 rounded-lg font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 bg-rose-500 text-white hover:bg-rose-600"
-              aria-label="delete"
-            >
-              ✕
-            </button>
-          </div>
-        </>
-      )}
+  className={`flex items-center flex-row-reverse justify-between  p-3 sm:p-4 rounded-lg transition-colors ${
+    todo.completed ? "bg-neutral-50 text-neutral-400" : "hover:bg-neutral-50"
+  }`}
+>
+  {isEditing ? (
+    <div className="flex flex-1  gap-2 items-center">
+      <input
+        type="text"
+        value={editText}
+        onChange={(e) => setEditText(e.target.value)}
+        className="flex-1 px-3 py-1 text-sm border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+        autoFocus
+        dir='rtl'
+      />
+      <button
+        onClick={handleUpdate}
+        className="inline-flex items-center justify-center w-8 h-8 rounded-lg font-medium transition-colors bg-emerald-500 text-white hover:bg-emerald-600 text-xs"
+        aria-label="save"
+      >
+        ✓
+      </button>
+      <button
+        onClick={handleCancel}
+        className="inline-flex items-center justify-center w-8 h-8 rounded-lg font-medium transition-colors bg-gray-500 text-white hover:bg-gray-600 text-xs"
+        aria-label="cancel"
+      >
+        ✕
+      </button>
     </div>
+  ) : (
+    <>
+      <div className="flex flex-row-reverse gap-1.5">
+        <button
+          onClick={handleStartEdit}
+          className="inline-flex items-center justify-center h-9 px-3 rounded-lg font-medium transition-colors bg-blue-500 text-white hover:bg-blue-600"
+          aria-label="edit"
+          disabled={todo.completed}
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+            />
+          </svg>
+        </button>
+
+        <button
+          onClick={() => toggleComplete(todo.id)}
+          className="inline-flex items-center justify-center h-9 px-3 rounded-lg font-medium transition-colors bg-emerald-500 text-white hover:bg-emerald-600"
+          aria-label="complete"
+        >
+          ✓
+        </button>
+
+        <button
+          onClick={() => onDeleteClick(todo.id, todo.text)}
+          className="inline-flex items-center justify-center h-9 px-3 rounded-lg font-medium transition-colors bg-rose-500 text-white hover:bg-rose-600"
+          aria-label="delete"
+        >
+          ✕
+        </button>
+      </div>
+
+      <span className="text-sm sm:text-base flex-1 text-left pr-4" dir="auto">
+        {todo.text}
+      </span>
+    </>
+  )}
+</div>
 
     
     </>

@@ -66,9 +66,11 @@ const Home = () => {
       </div>
 
       <h3 className="text-xl font-extrabold text-white mt-4">تأكيد الحذف</h3>
-      <p className="text-base text-white mt-2">
-      {todoText}  هل انت متاكد من الحذف نهائيا  
+      <p  className="text-base text-white mt-2">
+          هل انت متاكد من الحذف نهائيا 
+          <p  dir="rtl">"{todoText}"</p> 
       </p>
+      
       
       {/* الأزرار: تصميم عصري */}
       <div className="mt-6 flex justify-center gap-3">
@@ -101,7 +103,8 @@ const Home = () => {
         
         <h3 className="text-xl font-extrabold text-white mt-4">تم التعديل بنجاح!</h3>
         <p className="text-base text-white mt-2">
-         {todoText}  تم تحديث العملية بنجاح  
+           تم تحديث العملية بنجاح الى
+           <p>"{todoText}"</p>
         </p>
         
         {/* زر الإغلاق: باللون البنفسجي ليتناسب مع ثيم التطبيق */}

@@ -30,15 +30,7 @@ export default function AppDialog({ isOpen, handleClose, children }){
         onClick={(e) => e.stopPropagation()} // منع الإغلاق عند النقر داخل النافذة
       >
         
-        {/* زر الإغلاق (X) */}
-        <button
-          onClick={handleClose}
-          // تصميم دائري وأنيق للزر
-          className="absolute top-4 right-4 p-2 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:text-gray-500 transition-colors"
-          aria-label="إغلاق النافذة"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-        </button>
+        
 
         {/* محتوى النافذة المنبثقة (يأتي من الـ children) */}
         {children}

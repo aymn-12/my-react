@@ -1,5 +1,6 @@
 import { useContext, useState, useMemo } from "react"
 import { TodoContext } from "../Context/TodoContext"
+import LinearIndeterminate from "./LinearIndeterminate"
 
 export default function CompletedTodo(){
    const {todos , deleteTodo} = useContext(TodoContext)
@@ -21,6 +22,7 @@ export default function CompletedTodo(){
       return (
       <div className="py-8 text-center">
            <p className="text-neutral-500 text-sm">لا توجد مهام مكتملة</p>
+          
       </div>
       )
    }
