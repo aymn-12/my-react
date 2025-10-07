@@ -4,7 +4,7 @@ import { TodoContext } from "../Context/TodoContext";
 import TodoItem from "./TodoItem";
 import CompletedTodo from "./CompletedTodo";
 
-const TodoList = ({ openDeleteConfirmDialog, openUpdateSuccessDialog }) => {
+const TodoList = ({ openDeleteConfirmDialog, openUpdateSuccessDialog, openSnackBar}) => {
   const { todos } = useContext(TodoContext);
   
   // Filter active (non-completed) todos
@@ -27,7 +27,11 @@ const TodoList = ({ openDeleteConfirmDialog, openUpdateSuccessDialog }) => {
       {activeTodos.length > 0 && (
         <div className="flex flex-col divide-y divide-black/5">
           {activeTodos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} onDeleteClick = {openDeleteConfirmDialog} onUpdateSuccess = {openUpdateSuccessDialog}/>
+            <TodoItem key={todo.id} 
+            todo={todo} 
+            onDeleteClick = {openDeleteConfirmDialog}
+             onUpdateSuccess = {openUpdateSuccessDialog} 
+             onCompleted={openSnackBar}/>
           ))}
         </div>
       )}

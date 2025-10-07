@@ -1,15 +1,29 @@
 import { useContext, useState } from 'react';
 import { motion as Motion, AnimatePresence } from 'framer-motion';
 import { TodoContext } from '../Context/TodoContext';
+import { UIContext } from '../Context/UIContext';
 import { Edit3, Check, X, Trash2 } from 'lucide-react';
 
 
-const TodoItem = ({todo , onDeleteClick, onUpdateSuccess}) => {
-    const {toggleComplete,updateTodo} = useContext(TodoContext);
+const TodoItem = ({todo , onDeleteClick, onUpdateSuccess, onCompleted}) => {
+    const {toggleComplete, updateTodo} = useContext(TodoContext);
+    
+
     const [isEditing, setIsEditing] = useState(false);
     const [editText, setEditText] = useState(todo.text);
     const [originalText, setOriginalText] = useState(todo.text);
 
+    const handleToggleComplete = () => {
+      const isCurrentlyCompleted = todo.completed; // حفظ الحالة قبل التبديل
+      toggleComplete(todo.id); // تنفيذ التبديل
+      
+      // إظهار الـ Snackbar بناءً على الحالة الجديدة للمهمة
+      if (!isCurrentlyCompleted) {
+          onCompleted(`🎉 تم إكمال المهمة`, 'success'); // 👈 إشعار الإكمال
+      } else {
+          onCompleted(`↩️ تم إلغاء إكمال المهمة`, 'info'); // 👈 إشعار إلغاء الإكمال
+      }
+  };
     
 
     const handleStartEdit = () => {
@@ -95,18 +109,19 @@ const TodoItem = ({todo , onDeleteClick, onUpdateSuccess}) => {
         </Motion.button>
 
         <Motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => toggleComplete(todo.id)}
-          className={`inline-flex items-center justify-center h-9 px-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl ${
-            todo.completed 
-              ? "bg-gray-400 text-white hover:bg-gray-500" 
-              : "bg-emerald-500 text-white hover:bg-emerald-600"
-          }`}
-          aria-label="complete"
-        >
-          <Check className="w-4 h-4" />
-        </Motion.button>
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.95 }}
+  onClick={handleToggleComplete}
+  className={`inline-flex items-center justify-center h-9 px-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl ${
+    todo.completed 
+      ? "bg-gray-400 text-white hover:bg-gray-500" 
+      : "bg-emerald-500 text-white hover:bg-emerald-600"
+  }`}
+  aria-label="complete"
+>
+  <Check className="w-4 h-4" />
+</Motion.button>
+
 
         <Motion.button
           whileHover={{ scale: 1.1, rotate: -5 }}

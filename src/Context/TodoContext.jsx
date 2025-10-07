@@ -20,6 +20,9 @@ export default function TodoProvider ({children}) {
         }
     });
 
+   
+
+
     useEffect(() => { //LocalStorage, API, Event
         localStorage.setItem("Todos" , JSON.stringify(todos))
     }, [todos])
@@ -105,7 +108,7 @@ export default function TodoProvider ({children}) {
         )))
     }
     return (
-        <TodoContext.Provider value={{todos,addTodo,deleteTodo,updateTodo,toggleComplete,userStats}}>
+        <TodoContext.Provider value={{todos, addTodo, deleteTodo, updateTodo, toggleComplete, userStats}}>
             {children}
         </TodoContext.Provider>
     )

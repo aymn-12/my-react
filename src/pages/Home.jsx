@@ -5,6 +5,8 @@ import TodoList from "../components/TodoList";
 import AppDialog from "../components/AppDialog";
 import StatsPanel from "../components/StatsPanel";
 import CelebtationEffect from "../components/CelebtationEffect";
+import { Snackbar, Alert } from '@mui/material';
+
 
 const Home = () => {
   const { addTodo, deleteTodo, todos, userStats } = useContext(TodoContext);
@@ -14,6 +16,28 @@ const Home = () => {
     type: null,
     todo: {id : null,text:''}
   });
+
+  const [snackBarState, setSnackBarState] = useState({
+    isOpen: false,
+    message: '',
+    severity: 'success', // 'success', 'error', 'info', 'warning'
+  });
+
+  const openSnackBar = (message, severity = 'success') => {
+    setSnackBarState({
+      isOpen: true,
+      message,
+      severity,
+    });
+  };
+  
+  const closeSnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackBarState(prev => ({ ...prev, isOpen: false }));
+  };
+
 
   const [celebration, setCelebration] = useState({
     show: false,
@@ -65,6 +89,7 @@ const Home = () => {
     if (exists) return alert('There is the same task in the list');
   
     addTodo(input.trim());
+    openSnackBar("Success Add",'success')
     setInput("");
   };
   
@@ -147,6 +172,7 @@ const Home = () => {
   return (
     <>
     <div className="min-h-screen bg-gradient-to-br from-purple-400/20 to-purple-700/30 flex flex-col items-center p-6">
+      
       <div className="w-full max-w-2xl">
         <Header />
         <StatsPanel />
@@ -174,6 +200,7 @@ const Home = () => {
         <TodoList 
            openDeleteConfirmDialog={openDeleteConfirmDialog} 
            openUpdateSuccessDialog={openUpdate}
+           openSnackBar={openSnackBar}
           />
         </div>
       </div>
@@ -187,6 +214,7 @@ const Home = () => {
     >
       {renederDialogContent()}
     </AppDialog>
+
     
 
       <footer className="w-full max-w-2xl mt-10">
@@ -212,12 +240,28 @@ const Home = () => {
         </div>
       </footer>
 
-      {/* تأثير الاحتفال */}
       <CelebtationEffect 
         show={celebration.show}
         type={celebration.type}
         onComplete={() => setCelebration({ show: false, type: 'task' })}
       />
+
+<Snackbar
+    open={snackBarState.isOpen}
+    autoHideDuration={4000}
+    onClose={closeSnackBar}
+    anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} 
+    >
+      <Alert 
+            onClose={closeSnackBar} 
+            severity={snackBarState.severity} // يعرض لون ورمز الإشعار (success, info, إلخ)
+            sx={{ width: '100%' }}
+            variant="filled" // لإعطاء Alert خلفية صلبة وواضحة
+        >
+            {snackBarState.message}
+        </Alert>
+    </Snackbar>
+      
     </div>
   </>
   );
