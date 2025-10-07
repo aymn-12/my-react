@@ -1,17 +1,36 @@
-import { useState, useContext,  } from "react";
+import { useState, useContext, useEffect } from "react";
 import { TodoContext } from "../Context/TodoContext";
 import Header from "../components/Header";
 import TodoList from "../components/TodoList";
 import AppDialog from "../components/AppDialog";
+import StatsPanel from "../components/StatsPanel";
+import CelebtationEffect from "../components/CelebtationEffect";
 
 const Home = () => {
-  const { addTodo, deleteTodo, todos  } = useContext(TodoContext);
+  const { addTodo, deleteTodo, todos, userStats } = useContext(TodoContext);
   const [input, setInput] = useState("");
   const [dialogState, setDialogState] = useState({
     isOpen: false,
     type: null,
     todo: {id : null,text:''}
-  })
+  });
+
+  const [celebration, setCelebration] = useState({
+    show: false,
+    type: 'task'
+  });
+
+  const [previousLevel, setPreviousLevel] = useState(userStats?.level || 1);
+
+  // تتبع تغييرات المستوى والاحتفال
+  useEffect(() => {
+    if (userStats && userStats.level > previousLevel) {
+      setCelebration({ show: true, type: 'level' });
+      setPreviousLevel(userStats.level);
+    }
+  }, [userStats, previousLevel]);
+  
+ 
   
   const closeDialog = () => setDialogState({isOpen: false, type: null, todo: {id:null , text:''}})
 
@@ -130,6 +149,7 @@ const Home = () => {
     <div className="min-h-screen bg-gradient-to-br from-purple-400/20 to-purple-700/30 flex flex-col items-center p-6">
       <div className="w-full max-w-2xl">
         <Header />
+        <StatsPanel />
 
 
         <div className="bg-white/90 backdrop-blur rounded-xl shadow-md ring-1 ring-black/5 p-4 sm:p-6 mb-6">
@@ -191,6 +211,13 @@ const Home = () => {
           </div>
         </div>
       </footer>
+
+      {/* تأثير الاحتفال */}
+      <CelebtationEffect 
+        show={celebration.show}
+        type={celebration.type}
+        onComplete={() => setCelebration({ show: false, type: 'task' })}
+      />
     </div>
   </>
   );
