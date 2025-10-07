@@ -5,6 +5,6 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: import.meta.env.VERCEL ? '/' : '/my-react/'
+  base: process.env.VERCEL ? '/' : '/my-react/'
 });
 

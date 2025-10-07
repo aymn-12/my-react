@@ -35,7 +35,6 @@ const TodoItem = ({todo , onDeleteClick, onUpdateSuccess}) => {
         setIsEditing(false);
     };
 
-   
 
     return (
       <>
@@ -87,6 +86,7 @@ const TodoItem = ({todo , onDeleteClick, onUpdateSuccess}) => {
           whileHover={{ scale: 1.1, rotate: 5 }}
           whileTap={{ scale: 0.95 }}
           onClick={handleStartEdit}
+          
           className="inline-flex items-center justify-center h-9 px-3 rounded-lg font-medium transition-all bg-blue-500 text-white hover:bg-blue-600 shadow-lg hover:shadow-xl"
           aria-label="edit"
           disabled={todo.completed}
