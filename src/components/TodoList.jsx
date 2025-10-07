@@ -4,7 +4,7 @@ import { TodoContext } from "../Context/TodoContext";
 import TodoItem from "./TodoItem";
 import CompletedTodo from "./CompletedTodo";
 
-const TodoList = ({ openDeleteConfirmDialog, openUpdateSuccessDialog, openSnackBar}) => {
+const TodoList = ({ openDeleteConfirmDialog, openUpdateSuccessDialog}) => {
   const { todos } = useContext(TodoContext);
   
   // Filter active (non-completed) todos
@@ -31,7 +31,7 @@ const TodoList = ({ openDeleteConfirmDialog, openUpdateSuccessDialog, openSnackB
             todo={todo} 
             onDeleteClick = {openDeleteConfirmDialog}
              onUpdateSuccess = {openUpdateSuccessDialog} 
-             onCompleted={openSnackBar}/>
+            />
           ))}
         </div>
       )}

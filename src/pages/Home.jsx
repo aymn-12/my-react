@@ -1,15 +1,18 @@
 import { useState, useContext, useEffect } from "react";
 import { TodoContext } from "../Context/TodoContext";
+import { UIContext } from "../Context/UIContext";
 import Header from "../components/Header";
 import TodoList from "../components/TodoList";
 import AppDialog from "../components/AppDialog";
 import StatsPanel from "../components/StatsPanel";
 import CelebtationEffect from "../components/CelebtationEffect";
-import { Snackbar, Alert } from '@mui/material';
+
 
 
 const Home = () => {
   const { addTodo, deleteTodo, todos, userStats } = useContext(TodoContext);
+  const {showSnackbar} = useContext(UIContext)
+
   const [input, setInput] = useState("");
   const [dialogState, setDialogState] = useState({
     isOpen: false,
@@ -17,27 +20,7 @@ const Home = () => {
     todo: {id : null,text:''}
   });
 
-  const [snackBarState, setSnackBarState] = useState({
-    isOpen: false,
-    message: '',
-    severity: 'success', // 'success', 'error', 'info', 'warning'
-  });
-
-  const openSnackBar = (message, severity = 'success') => {
-    setSnackBarState({
-      isOpen: true,
-      message,
-      severity,
-    });
-  };
   
-  const closeSnackBar = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setSnackBarState(prev => ({ ...prev, isOpen: false }));
-  };
-
 
   const [celebration, setCelebration] = useState({
     show: false,
@@ -82,14 +65,13 @@ const Home = () => {
   const handleAdd = () => {
     const normalize = str => str.trim().toLowerCase().replace(/\s+/g, ' ');
     const value = normalize(input);
-    if (!value) return alert('Task is empty');
+    if (!value) return showSnackbar('Write The Task','error');
   
     const exists = todos.some(todo => normalize(todo.text) === value);
   
-    if (exists) return alert('There is the same task in the list');
+    if (exists) return showSnackbar('There is the same task in the list','warning');
   
     addTodo(input.trim());
-    openSnackBar("Success Add",'success')
     setInput("");
   };
   
@@ -200,7 +182,6 @@ const Home = () => {
         <TodoList 
            openDeleteConfirmDialog={openDeleteConfirmDialog} 
            openUpdateSuccessDialog={openUpdate}
-           openSnackBar={openSnackBar}
           />
         </div>
       </div>
@@ -246,22 +227,7 @@ const Home = () => {
         onComplete={() => setCelebration({ show: false, type: 'task' })}
       />
 
-<Snackbar
-    open={snackBarState.isOpen}
-    autoHideDuration={4000}
-    onClose={closeSnackBar}
-    anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} 
-    >
-      <Alert 
-            onClose={closeSnackBar} 
-            severity={snackBarState.severity} // يعرض لون ورمز الإشعار (success, info, إلخ)
-            sx={{ width: '100%' }}
-            variant="filled" // لإعطاء Alert خلفية صلبة وواضحة
-        >
-            {snackBarState.message}
-        </Alert>
-    </Snackbar>
-      
+
     </div>
   </>
   );

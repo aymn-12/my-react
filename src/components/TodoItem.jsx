@@ -5,24 +5,18 @@ import { UIContext } from '../Context/UIContext';
 import { Edit3, Check, X, Trash2 } from 'lucide-react';
 
 
-const TodoItem = ({todo , onDeleteClick, onUpdateSuccess, onCompleted}) => {
+const TodoItem = ({todo , onDeleteClick, onUpdateSuccess}) => {
     const {toggleComplete, updateTodo} = useContext(TodoContext);
-    
+    const {showSnackbar} = useContext(UIContext);
 
     const [isEditing, setIsEditing] = useState(false);
     const [editText, setEditText] = useState(todo.text);
     const [originalText, setOriginalText] = useState(todo.text);
 
     const handleToggleComplete = () => {
-      const isCurrentlyCompleted = todo.completed; // حفظ الحالة قبل التبديل
       toggleComplete(todo.id); // تنفيذ التبديل
-      
-      // إظهار الـ Snackbar بناءً على الحالة الجديدة للمهمة
-      if (!isCurrentlyCompleted) {
-          onCompleted(`🎉 تم إكمال المهمة`, 'success'); // 👈 إشعار الإكمال
-      } else {
-          onCompleted(`↩️ تم إلغاء إكمال المهمة`, 'info'); // 👈 إشعار إلغاء الإكمال
-      }
+      showSnackbar("Successfily","success")
+     
   };
     
 
