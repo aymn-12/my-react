@@ -7,9 +7,9 @@ import CompletedTodo from "./CompletedTodo";
 const TodoList = ({ openDeleteConfirmDialog, openUpdateSuccessDialog}) => {
   const { todos } = useContext(TodoContext);
   
-  // Filter active (non-completed) todos
+  // Filter active (non-completed)#false todos
   const activeTodos = useMemo(() => {
-    return todos.filter(todo => !todo.completed);
+    return todos.filter(todo => todo.completed == false);
   },[todos])
   
 

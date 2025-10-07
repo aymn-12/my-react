@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useMemo } from "react";
 import { TodoContext } from "../Context/TodoContext";
 import { UIContext } from "../Context/UIContext";
 import Header from "../components/Header";
@@ -6,6 +6,7 @@ import TodoList from "../components/TodoList";
 import AppDialog from "../components/AppDialog";
 import StatsPanel from "../components/StatsPanel";
 import CelebtationEffect from "../components/CelebtationEffect";
+
 
 
 
@@ -62,23 +63,28 @@ const Home = () => {
     }
   }
 
+  const activeTodos = useMemo(() => {
+    return todos.filter(todo => !todo.completed);
+  },[todos])
+
   const handleAdd = () => {
     const normalize = str => str.trim().toLowerCase().replace(/\s+/g, ' ');
     const value = normalize(input);
     if (!value) return showSnackbar('Write The Task','error');
   
-    const exists = todos.some(todo => normalize(todo.text) === value);
+    const exists = activeTodos.some(todo => normalize(todo.text) === value);
   
-    if (exists) return showSnackbar('There is the same task in the list','warning');
-  
+    if (exists) return showSnackbar('There is the same task in the list', 'warning');
+
     addTodo(input.trim());
     setInput("");
+    showSnackbar("Add to List", 'success')
   };
   
   const renederDialogContent = () => {
     if(!dialogState.isOpen || !dialogState.type) return null
 
-    const todoText = dialogState.todo?.text || ''
+    
 
     switch(dialogState.type){
       case 'DELETE':
@@ -94,7 +100,6 @@ const Home = () => {
       <h3 className="text-xl font-extrabold text-white mt-4">تأكيد الحذف</h3>
       <p  className="text-base text-white mt-2">
           هل انت متاكد من الحذف نهائيا 
-          <p  dir="rtl">"{todoText}"</p> 
       </p>
       
       
@@ -129,8 +134,8 @@ const Home = () => {
         
         <h3 className="text-xl font-extrabold text-white mt-4">تم التعديل بنجاح!</h3>
         <p className="text-base text-white mt-2">
-           تم تحديث العملية بنجاح الى
-           <p>"{todoText}"</p>
+           تم تحديث العملية بنجاح 
+           
         </p>
         
         {/* زر الإغلاق: باللون البنفسجي ليتناسب مع ثيم التطبيق */}
