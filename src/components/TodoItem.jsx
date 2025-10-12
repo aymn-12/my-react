@@ -16,8 +16,7 @@ const TodoItem = ({todo , onDeleteClick, onUpdateSuccess}) => {
     const handleToggleComplete = () => {
       toggleComplete(todo.id); // تنفيذ التبديل
       showSnackbar("Successfily","success")
-     
-  };
+    };
     
 
     const handleStartEdit = () => {
@@ -32,7 +31,7 @@ const TodoItem = ({todo , onDeleteClick, onUpdateSuccess}) => {
         if (Texteditior.length > 0  && Texteditior !== todo.text) {
           updateTodo(todo.id, editText.trim());
 
-          onUpdateSuccess(todo.id, Texteditior)
+          onUpdateSuccess(todo.id)
         }
         setIsEditing(false);
     };
@@ -87,7 +86,7 @@ const TodoItem = ({todo , onDeleteClick, onUpdateSuccess}) => {
         <X className="w-4 h-4" />
       </Motion.button>
     </div>
-  ) : (
+    ) : (
     <>
       <div className="flex gap-1.5">
         <Motion.button
@@ -103,22 +102,22 @@ const TodoItem = ({todo , onDeleteClick, onUpdateSuccess}) => {
         </Motion.button>
 
         <Motion.button
-  whileHover={{ scale: 1.1 }}
-  whileTap={{ scale: 0.95 }}
-  onClick={handleToggleComplete}
-  className={`inline-flex items-center justify-center h-9 px-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl ${
-    todo.completed 
-      ? "bg-gray-400 text-white hover:bg-gray-500" 
-      : "bg-emerald-500 text-white hover:bg-emerald-600"
-  }`}
-  aria-label="complete"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={handleToggleComplete}
+        className={`inline-flex items-center justify-center h-9 px-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl ${
+        todo.completed 
+          ? "bg-gray-400 text-white hover:bg-gray-500" 
+          : "bg-emerald-500 text-white hover:bg-emerald-600"
+      }`}
+      aria-label="complete"
 >
   <Check className="w-4 h-4" />
 </Motion.button>
 
 
-        <Motion.button
-          whileHover={{ scale: 1.1, rotate: -5 }}
+  <Motion.button
+    whileHover={{ scale: 1.1, rotate: -5 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => onDeleteClick(todo.id, todo.text)}
           className="inline-flex items-center justify-center h-9 px-3 rounded-lg font-medium transition-all bg-rose-500 text-white hover:bg-rose-600 shadow-lg hover:shadow-xl"
@@ -140,10 +139,8 @@ const TodoItem = ({todo , onDeleteClick, onUpdateSuccess}) => {
         {todo.text}
       </Motion.span>
     </>
-  )}
-</Motion.div>
-
-    
+    )}
+    </Motion.div>
     </>
   )
 }

@@ -10,6 +10,7 @@ export default function CompletedTodo(){
    const completedCount = useMemo(() => {
       return todos.filter(todo => todo.completed).length
    },[todos])
+   
    const completedTodos = useMemo(() => {
       return todos.filter(todo => todo.completed)
    },[todos])

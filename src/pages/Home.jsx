@@ -50,10 +50,10 @@ const Home = () => {
     });
   };
 
-  const openUpdate = (id ,text) => {
+  const openUpdate = (id) => {
     setDialogState({isOpen: true, 
     type: 'UPDATE_SUCCESS', 
-    todo : {id,text}})
+    todo : {id}})
   }
 
   const handleConfirmDelete = () => {
@@ -81,6 +81,12 @@ const Home = () => {
     showSnackbar("Add to List", 'success')
   };
   
+  function handlekeydown(e){
+    if(e.key == 'Enter'){
+      handleAdd()
+    }
+  }
+
   const renederDialogContent = () => {
     if(!dialogState.isOpen || !dialogState.type) return null
 
@@ -173,6 +179,7 @@ const Home = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="أضف مهمة جديدة..."
+              onKeyDown={handlekeydown}
               className="w-full px-4 py-2 rounded-lg bg-white text-neutral-800 placeholder-neutral-400 outline-none ring-1 ring-black/10 focus:ring-purple-400"
             />
             <button
