@@ -219,7 +219,7 @@ const Home = () => {
               <span className="text-gradient-animated font-semibold">Aymen.ceo</span>
             </div>
             <div className="flex items-center justify-center gap-3">
-              <a href="https://t.me/STP_001" className="text-neutral-500 hover:text-sky-600 transition-colors" aria-label="Telegram">
+              <a href="https://t.me/gsap_100" className="text-neutral-500 hover:text-sky-600 transition-colors" aria-label="Telegram">
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M9.036 15.75l-.363 5.107c.518 0 .742-.222 1.011-.486l2.427-2.325 5.027 3.68c.922.509 1.579.242 1.832-.854l3.32-15.52h.001c.294-1.37-.495-1.907-1.397-1.57L1.72 9.51c-1.34.52-1.32 1.268-.228 1.606l5.044 1.575 11.7-7.384c.552-.375 1.056-.167.642.208z"/>
                 </svg>
