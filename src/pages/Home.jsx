@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useMemo } from "react";
+import { mport { , eState, us, ontext, u, Effect, } eMem "react";
 import { TodoContext } from "../Context/TodoContext";
 import { UIContext } from "../Context/UIContext";
 import Header from "../components/Header";
@@ -216,7 +216,7 @@ const Home = () => {
           <div className="text-center text-xs sm:text-sm text-neutral-600/80 bg-white/70 backdrop-blur rounded-xl py-4 ring-1 ring-black/5 shadow-sm">
             <div className="flex items-center justify-center gap-2 mb-1">
               <span className="align-middle">© {new Date().getFullYear()}</span>
-              <span className="text-gradient-animated font-semibold">Aymen.ceo</span>
+              <span className="text-gradient-animated font-semibold">Aymen.ceo & Azez.asst</span>
             </div>
             <div className="flex items-center justify-center gap-3">
               <a href="https://t.me/gsap_100" className="text-neutral-500 hover:text-sky-600 transition-colors" aria-label="Telegram">
