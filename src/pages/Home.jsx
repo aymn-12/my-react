@@ -218,16 +218,7 @@ const Home = () => {
               <span className="align-middle">© {new Date().getFullYear()}</span>
               <span className="text-gradient-animated font-semibold">Aymen, Abdulrahman</span>
             </div>
-            <div className="flex items-center justify-center gap-3">
-              <a href="https://t.me/gsap_100" className="text-neutral-500 hover:text-sky-600 transition-colors" aria-label="Telegram">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M9.036 15.75l-.363 5.107c.518 0 .742-.222 1.011-.486l2.427-2.325 5.027 3.68c.922.509 1.579.242 1.832-.854l3.32-15.52h.001c.294-1.37-.495-1.907-1.397-1.57L1.72 9.51c-1.34.52-1.32 1.268-.228 1.606l5.044 1.575 11.7-7.384c.552-.375 1.056-.167.642.208z"/>
-                </svg>
-              </a>
-              <a href="https://www.instagram.com/code.edition1?igsh=YmxheXpzdjdsNzQ1" className="text-neutral-500 hover:text-pink-600 transition-colors" aria-label="Instagram">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A5.5 5.5 0 1 0 17.5 13 5.51 5.51 0 0 0 12 7.5zm0 2A3.5 3.5 0 1 1 8.5 13 3.51 3.51 0 0 1 12 9.5zM18 6.5a1 1 0 1 0 1 1 1 1 0 0 0-1-1z"/></svg>
-              </a>
-            </div>
+            
             <div className="mt-1 text-[11px] text-neutral-500">جميع الحقوق محفوظة</div>
           </div>
         </div>
